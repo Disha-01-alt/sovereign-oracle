@@ -59,17 +59,16 @@ def save_to_graph(headline, analysis, link):
         print(f"Database Error: {e}")
 
 def run_oracle():
-    """The Ingestion Layer."""
-    # This URL targets mining/geopolitics specifically
     rss_url = "https://news.google.com/rss/search?q=lithium+mining+geopolitics+tax+OR+copper+strike"
     feed = feedparser.parse(rss_url)
-    
-    print(f"🚀 Sovereign Intelligence Engine Started: {len(feed.entries)} signals detected.")
-    
-    for entry in feed.entries[:10]: # Process 10 headlines to test
+
+    print("DEBUG: Feed entries =", len(feed.entries))
+
+    for entry in feed.entries[:10]:
+        print("DEBUG: Headline =", entry.title)
         analysis = get_geopolitical_analysis(entry.title)
         save_to_graph(entry.title, analysis, entry.link)
-        time.sleep(1) # Sleep to avoid rate limits
+        time.sleep(1)
 
 if __name__ == "__main__":
     run_oracle()
